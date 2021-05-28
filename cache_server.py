@@ -1,8 +1,3 @@
-
-"""
-    Implements a simple cache proxy
-"""
-
 import socket
 from urllib.request import Request, urlopen, HTTPError
 import argparse
@@ -12,11 +7,9 @@ import os
 def makedirec(dire):
     try:
         dire= dire[1:].split("/")
-        #print(dire)
         temp='cache/'
         for i in range (len(dire)-1):
             temp= temp+dire[i]
-            #print(temp)
             if not os.path.exists(temp):
                 os.makedirs(temp)
             temp=temp + '/'
@@ -133,23 +126,17 @@ def fetch_from_server(filename):
     if filename.count('/')==1 and ('.com' in filename or '.pk' in filename):
         url = 'http://www.' + filename[1:]
         urls = url
-        #print(urls)
     else:
         url=urls+filename
         print(urls)
         
     print("url here",url)
     
-    #print(q)
     try:
         q = Request(url)
         response = urlopen(q)
-        #print(response.info())
-        #print(response.read())
-        # Grab the header and content from the server req
         response_headers = response.info()
         content = response.read().decode("ISO-8859-1")
-        #print(content,'uysduisdysd')
         return content
     except HTTPError:
         print('error')
@@ -162,7 +149,6 @@ def save_in_cache(filename, content):
     print('Saving a copy of {} in the cache'.format(filename))
     filename=remov(filename)
     cached_file = open('cache' + filename, 'w',encoding="ISO-8859-1")
-    #print(content)
     cached_file.write(content)
     cached_file.close()
     
